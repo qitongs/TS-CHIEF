@@ -110,8 +110,10 @@ public class ProximityForest implements Serializable{
 		System.out.println("Boosting: " + AppContext.boosting);
 		if (!AppContext.boosting ){ 				//Charlotte: original code
 			for (int i = 0; i < AppContext.num_trees; i++) {
-				trees[i].train(train_data);
-				
+//				trees[i].train(train_data);
+				// null added by Qitong, as it doesn't seem to be used
+				trees[i].train(train_data, null);
+
 				if (AppContext.verbosity > 0) {
 					System.out.print(i+".");
 					if (AppContext.verbosity > 2) {

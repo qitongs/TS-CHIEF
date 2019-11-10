@@ -536,7 +536,7 @@ public class ProximityTree{
 //		public void train(Dataset data) throws Exception {
 //			this.data = data;
 //			this.train();
-//		}		
+//		}
 		
 		public void train(TSDataset data, int indices[]) throws Exception {
 //			System.out.println(this.node_depth + ":   " + (this.parent == null ? "r" : this.parent.node_id)  +"->"+ this.node_id +":"+ data.toString());

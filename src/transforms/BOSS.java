@@ -66,7 +66,11 @@ public class BOSS {
 	public static class BagOfPattern {
 		public IntIntHashMap bag;
 
-		private Double label;
+//		private Double label;
+
+      // Changed to public by Qitong 10112019
+		public Double label;
+
 		// TODO add a pointer to the time series ?? too much memory?? think, might
 		// simplify somethings
 		private TimeSeries series;

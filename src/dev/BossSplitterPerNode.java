@@ -29,7 +29,7 @@ public class BossSplitterPerNode implements NodeSplitter {
 	BOSSEnsembleClassifier bossEns;
 	TIntObjectHashMap<BOSSEnsembleClassifier> bossEnsPerClass;
 
-	TIntObjectHashMap<BOSSModel> bossModelPerClass;
+	TIntObjectHashMap<BOSSEnsembleClassifier.BOSSModel> bossModelPerClass;
 	TIntObjectHashMap<BOSS> bossPerClass;
 	TIntObjectHashMap<BagOfPattern> bopPerClass;
 	boolean bestNorm;
@@ -70,7 +70,7 @@ public class BossSplitterPerNode implements NodeSplitter {
 	}
 
 	@Override
-	public void train(TSDataset data, int[] indices) throws Exception {
+	public TIntObjectMap<TSDataset> train(TSDataset data, int[] indices) throws Exception {
 
 //		if (use_ensemble_per_class) {
 //			train_one_ensemble(data);
@@ -80,6 +80,8 @@ public class BossSplitterPerNode implements NodeSplitter {
 
 		train_hist_using_forest_transform(data);
 
+		// Add return by Qitong at 10112019
+		return null;
 	}
 	
 	@Override
@@ -251,8 +253,10 @@ public class BossSplitterPerNode implements NodeSplitter {
 		final long mask = (1L << (usedBits * wordLength)) - 1L;
 
 		// iterate all samples
-		bagOfPatterns = new BagOfPattern(words.length, sample.getLabel().doubleValue()); // TODO int to double
+//		bagOfPatterns = new BagOfPattern(words.length, sample.getLabel().doubleValue()); // TODO int to double
 																									// label
+		// Modified by Qitong according to its signature
+		bagOfPatterns = new BagOfPattern(words.length, sample); // TODO int to double
 
 		// create subsequences
 		long lastWord = Long.MIN_VALUE;
@@ -292,7 +296,10 @@ public class BossSplitterPerNode implements NodeSplitter {
 
 	    // iterate all samples
 	    for (int j = 0; j < words.length; j++) {
-	      bagOfPatterns[j] = new BagOfPattern(words[j].length, samples[j].getLabel().doubleValue()); //TODO int to double label
+//	      bagOfPatterns[j] = new BagOfPattern(words[j].length, samples[j].getLabel().doubleValue()); //TODO int to double label
+
+			// Modified by Qitong at 10112019
+			bagOfPatterns[j] = new BagOfPattern(words[j].length, samples[j]); //TODO int to double label
 
 	      // create subsequences
 	      long lastWord = Long.MIN_VALUE;
@@ -610,10 +617,10 @@ public class BossSplitterPerNode implements NodeSplitter {
 //		
 //	}
 
-	protected Predictions predict(final BagOfPattern[] bagOfPatternsTestSamples,
-			final BagOfPattern[] bagOfPatternsTrainSamples) {
+	protected Classifier.Predictions predict(final BagOfPattern[] bagOfPatternsTestSamples,
+											 final BagOfPattern[] bagOfPatternsTrainSamples) {
 
-		Predictions p = new Predictions(new Double[bagOfPatternsTestSamples.length], 0);
+		Classifier.Predictions p = new Classifier.Predictions(new Double[bagOfPatternsTestSamples.length], 0);
 
 		// iterate each sample to classify
 		for (int i = 0; i < bagOfPatternsTestSamples.length; i++) {

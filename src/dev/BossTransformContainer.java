@@ -223,10 +223,11 @@ public class BossTransformContainer implements TransformContainer {
 //	public HashMap<String, BagOfPattern[]> getHistograms() {
 //		return histograms;
 //	}
-	
-//	public HashMap<String, SFA> getSFATransforms() {
-//		return sfa_list;
-//	}
+
+	// Uncommented by Qitong at 10112019
+	public HashMap<String, SFA> getSFATransforms() {
+		return sfa_transforms;
+	}
 //	
 //	@Override
 //	public TSDataset transform() {

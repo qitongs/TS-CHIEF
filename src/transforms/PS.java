@@ -19,44 +19,45 @@ public class PS {
     public PS() {
 //    	fft = new SimpleFFT();
     }
-    
-	public TSDataset transform(TSDataset input) {
-		int size = input.size();
-		int length = input.length();
 
-		TSDataset output = new TSDataset(size);
-		
-		TSDataset fftDataset = fft.transform(input);
-		
-		for (int i = 0; i < size; i++) {
-			double[] data;
-			
-	        if(log) {
-	            double l1;
-                TimeSeries tsfft = fftDataset.get_series(i);
-                
-                data = new double[tsfft.getLength()];
-                
-                for(int j=0;j<data.length;j++){
-                    l1= tsfft.getData()[j*2] * tsfft.getData()[j*2] + tsfft.getData()[j*2+1] * tsfft.getData()[j*2+1];
-                    data[j] = Math.log(l1);
-                }
-	        }else {
-                TimeSeries tsfft = fftDataset.get_series(i);
-                
-                data = new double[tsfft.getLength()];
-
-                for(int j=0;j<data.length;j++){
-                	data[j] = tsfft.getData()[j*2] * tsfft.getData()[j*2] + tsfft.getData()[j*2+1] * tsfft.getData()[j*2+1];
-                }
-	        }
-					
-			TimeSeries ts = new TimeSeries(data, input.get_class(i));
-			output.add(ts);
-		}
-
-		return output;
-	}
+    // Commented by Qitong at 10112019
+//	public TSDataset transform(TSDataset input) {
+//		int size = input.size();
+//		int length = input.length();
+//
+//		TSDataset output = new TSDataset(size);
+//
+//		TSDataset fftDataset = fft.transform(input);
+//
+//		for (int i = 0; i < size; i++) {
+//			double[] data;
+//
+//	        if(log) {
+//	            double l1;
+//                TimeSeries tsfft = fftDataset.get_series(i);
+//
+//                data = new double[tsfft.getLength()];
+//
+//                for(int j=0;j<data.length;j++){
+//                    l1= tsfft.getData()[j*2] * tsfft.getData()[j*2] + tsfft.getData()[j*2+1] * tsfft.getData()[j*2+1];
+//                    data[j] = Math.log(l1);
+//                }
+//	        }else {
+//                TimeSeries tsfft = fftDataset.get_series(i);
+//
+//                data = new double[tsfft.getLength()];
+//
+//                for(int j=0;j<data.length;j++){
+//                	data[j] = tsfft.getData()[j*2] * tsfft.getData()[j*2] + tsfft.getData()[j*2+1] * tsfft.getData()[j*2+1];
+//                }
+//	        }
+//
+//			TimeSeries ts = new TimeSeries(data, input.get_class(i));
+//			output.add(ts);
+//		}
+//
+//		return output;
+//	}
 	
 	public double[] transformArray(double[] input) {
 		double[] output = null;
